@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coca-Cola vs. Pepsi</title>
+  <style>
+    /* Reset e layout básico */
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    body {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.5s ease;
+    }
+    header, footer {
+      height: 100px;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      transition: background-color 0.5s ease;
+    }
+    main {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      transition: background 0.5s ease;
+    }
+    header {
+      gap: 24px;
+      padding-left: 75px;
+    }
+    header span {
+      font-weight: 600;
+    }
+    /* Logo esmaecida, mas **BRANCA**, sem puxar tom rosado */
+    .background-logo {
+      position: absolute;
+      width: 100%;
+      max-height: 100%;
+      margin: auto;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      opacity: 0.3;
+      filter: brightness(10) contrast(1) grayscale(1);
+      transition: opacity 0.5s ease, filter 0.5s ease;
+    }
+    /* Texto do conteúdo – sempre por cima do logo */
+    .content-text {
+      position: absolute;
+      color: #ffffff;
+      font-size: 2.5rem;
+      width: 240px;
+      transform: translateX(-100%);
+      text-align: end;
+      transition: all 0.5s ease;
+      z-index: 3;
+    }
+    /* A garrafa (produto) fica acima do logo */
+    .content-image {
+      height: 85vh;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      z-index: 2;
+    }
+    .content-image:hover {
+      transform: scale(1.03) rotate(1deg);
+    }
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 75px;
+      font-weight: 100;
+    }
+    footer div {
+      width: 64px;
+    }
+    /* Responsividade */
+    @media (max-width: 768px) {
+      header {
+        padding-left: 25px;
+      }
+      .content-text {
+        transform: translateX(0%);
+        top: 80px;
+        font-size: 1rem;
+        width: 100px;
+        text-align: center;
+      }
+      .content-image {
+        height: 70vh;
+      }
+      footer {
+        padding: 0 25px;
+      }
+    }
+  </style>
+</head>
+<body class="theme-coke">
+  <header>
+    <img src="./img/menu-burger.svg" alt="Menu hamburger" id="menuToggle" style="cursor: pointer;">
+    <span>MENU</span>
+  </header>
+  
+  <main>
+    <img src="" alt="Logo da marca" class="background-logo" id="bgLogo">
+    <h2 class="content-text" id="contentText"></h2>
+    <img src="" alt="Produto" class="content-image" id="contentImage">
+  </main>
+  
+  <footer>
+    <div></div>
+    <span>Pedro Mota</span>
+    <img src="./img/map.svg" alt="Mapa">
+  </footer>
+  
+  <script>
+    const themes = {
+      coke: {
+        bodyClass: 'theme-coke',
+        mainBg: '#DA6062',
+        headerBg: '#CF2425',
+        footerBg: '#CF2425',
+        contentText: 'Things go better with',
+        bgLogoSrc: './img/background-image.png',
+        contentImageSrc: './img/coca-cola.png',
+        logoFilter: 'brightness(10) contrast(1) grayscale(1) opacity(0.3)'
+      },
+      pepsi: {
+        bodyClass: 'theme-pepsi',
+        mainBg: 'radial-gradient(circle at center, #00172B 0%, #000000 100%)',
+        headerBg: '#00172B',
+        footerBg: '#00172B',
+        contentText: 'Live For Now',
+        bgLogoSrc: './img/pepsi-globe-logo.png',
+        contentImageSrc: './img/pepsi-can.png',
+        logoFilter: 'brightness(10) contrast(1) grayscale(1) opacity(0.3)'
+      }
+    };
+
+    let currentTheme = 'coke';
+    
+    const menuToggle = document.getElementById('menuToggle');
+    const body = document.body;
+    const header = document.querySelector('header');
+    const footer = document.querySelector('footer');
+    const main = document.querySelector('main');
+    const bgLogo = document.getElementById('bgLogo');
+    const contentText = document.getElementById('contentText');
+    const contentImage = document.getElementById('contentImage');
+
+    function applyTheme(theme) {
+      const t = themes[theme];
+      body.className = t.bodyClass;
+      header.style.backgroundColor = t.headerBg;
+      footer.style.backgroundColor = t.footerBg;
+      main.style.background = t.mainBg;
+      contentText.textContent = t.contentText;
+      bgLogo.src = t.bgLogoSrc;
+      bgLogo.style.filter = t.logoFilter;
+      contentImage.src = t.contentImageSrc;
+    }
+
+    menuToggle.addEventListener('click', () => {
+      currentTheme = currentTheme === 'coke' ? 'pepsi' : 'coke';
+      applyTheme(currentTheme);
+    });
+
+    applyTheme(currentTheme);
+  </script>
+</body>
+</html>
